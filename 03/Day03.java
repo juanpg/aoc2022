@@ -1,8 +1,9 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Day03 {
     private static Integer calculatePriority(char letter) {
@@ -17,12 +18,13 @@ public class Day03 {
     }
 
     private static String intersect(String string1, String string2) {
-        ArrayList<String> result = new ArrayList<String>();
-        for (char c : string1.toCharArray()) {
+        Set<String> result = new HashSet<String>();
+        for(String c : string1.split("")) {
             if(string2.indexOf(c) > -1) {
-                result.add(Character.toString(c));
+                result.add(c);
             }
         }
+
         return String.join("", result);
     }
 
