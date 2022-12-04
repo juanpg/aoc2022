@@ -3,11 +3,7 @@ import { readData } from "../parse";
 const parseData = (fileName: string): number[][] => {
     const data = readData(fileName);
 
-    return data.split('\n').map(line => {
-        const re = /(\d+)-(\d+),(\d+)-(\d+)/;
-        const [_, lb1, ub1, lb2, ub2] = re.exec(line);
-        return [lb1, ub1, lb2, ub2].map(Number);
-    });
+    return data.split('\n').map(line => line.split(/[,-]/).map(Number));
 }
 
 const sampleData: number[][] = parseData('./day04sample.txt');
