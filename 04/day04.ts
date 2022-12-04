@@ -1,26 +1,26 @@
 import { readData } from "../parse";
 
-const parseData = (fileName: string): string[][] => {
+const parseData = (fileName: string): number[][] => {
     const data = readData(fileName);
 
-    return data.split('\n').map(line => line.split(','));
+    return data.split('\n').map(line => {
+        const re = /(\d+)-(\d+),(\d+)-(\d+)/;
+        const [_, lb1, ub1, lb2, ub2] = re.exec(line);
+        return [lb1, ub1, lb2, ub2].map(Number);
+    });
 }
 
-const sampleData:String[][] = parseData('./day04sample.txt');
-const data:String[][] = parseData('./day04.txt');
+const sampleData: number[][] = parseData('./day04sample.txt');
+const data:number[][] = parseData('./day04.txt');
 
-const puzzle1 = (data: String[][]): number => {
-    return data.filter(([elf1, elf2]) => {
-        const [lb1, ub1] = elf1.split('-').map(Number);
-        const [lb2, ub2] = elf2.split('-').map(Number);
+const puzzle1 = (data: number[][]): number => {
+    return data.filter(([lb1, ub1, lb2, ub2]) => {
         return (lb1 >= lb2 && ub1 <= ub2) || (lb2 >= lb1 && ub2 <= ub1);
     }).length;
 }
 
-const puzzle2 = (data: String[][]): number => {
-    return data.length - data.filter(([elf1, elf2]) => {
-        const [lb1, ub1] = elf1.split('-').map(Number);
-        const [lb2, ub2] = elf2.split('-').map(Number);
+const puzzle2 = (data: number[][]): number => {
+    return data.length - data.filter(([lb1, ub1, lb2, ub2]) => {
         return (ub1 < lb2) || (ub2 < lb1);
     }).length;
 }
